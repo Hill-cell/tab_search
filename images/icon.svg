@@ -1,0 +1,15 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 外边框 -->
+  <rect x="4" y="4" width="120" height="120" rx="16" stroke="black" stroke-width="8" fill="white"/>
+  
+  <!-- 搜索框 -->
+  <rect x="24" y="32" width="80" height="24" rx="12" stroke="black" stroke-width="4" fill="white"/>
+  
+  <!-- 快捷方块 -->
+  <rect x="24" y="72" width="32" height="32" rx="8" stroke="black" stroke-width="4" fill="white"/>
+  <rect x="72" y="72" width="32" height="32" rx="8" stroke="black" stroke-width="4" fill="white"/>
+  
+  <!-- 搜索图标 -->
+  <circle cx="84" cy="44" r="6" stroke="black" stroke-width="4" fill="white"/>
+  <line x1="89" y1="49" x2="94" y2="54" stroke="black" stroke-width="4" stroke-linecap="round"/>
+</svg> 

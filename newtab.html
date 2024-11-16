@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新标签页</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 右上角时间日期和日历 -->
+    <div class="right-panel">
+        <div class="datetime-container">
+            <div class="time" id="time"></div>
+            <div class="date" id="date"></div>
+        </div>
+        <!-- 日历组件 -->
+        <div class="calendar-container" id="calendar"></div>
+    </div>
+
+    <!-- 主要内容区 -->
+    <div class="container">
+        <!-- 搜索引擎区域 -->
+        <div class="search-container">
+            <div id="search-engines" class="search-engines-wrapper">
+                <!-- 搜索框将被动态添加到这里 -->
+            </div>
+            <div class="search-controls">
+                <button id="manage-engines">管理</button>
+            </div>
+        </div>
+
+        <!-- 快捷链接区域 -->
+        <div class="quicklinks">
+            <div class="quicklinks-grid" id="quicklinks-grid">
+                <!-- 快捷链接将被动态添加到这里 -->
+            </div>
+            <button id="edit-links">编辑</button>
+        </div>
+    </div>
+
+    <!-- 右下角壁纸设置 -->
+    <div class="wallpaper-settings">
+        <input type="file" id="wallpaper-upload" accept="image/*">
+        <button id="change-wallpaper">更换壁纸</button>
+        <button id="reset-wallpaper">恢复默认壁纸</button>
+    </div>
+
+    <!-- 搜索引擎管理对话框 -->
+    <dialog id="engine-dialog">
+        <h3>管理搜索引擎</h3>
+        <div id="engine-list"></div>
+        <div class="dialog-buttons">
+            <button id="add-new-engine">新增</button>
+            <button id="close-dialog">关闭</button>
+        </div>
+    </dialog>
+
+    <!-- 快捷链接编辑对话框 -->
+    <dialog id="quicklink-dialog">
+        <h3>编辑快捷链接</h3>
+        <form id="quicklink-form">
+            <input type="text" id="link-title" placeholder="标题" required>
+            <input type="url" id="link-url" placeholder="URL" required>
+            <input type="url" id="link-icon" placeholder="图标URL">
+            <div class="dialog-buttons">
+                <button type="submit">保存</button>
+                <button type="button" id="close-quicklink-dialog">取消</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- 脚本文件 -->
+    <script src="calendar.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

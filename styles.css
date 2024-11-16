@@ -1,0 +1,737 @@
+/* 添加到 styles.css 的开头 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    background-image: url('images/default-wallpaper.jpg');  /* 添加默认壁纸 */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #333;
+}
+
+/* 日历样式优化 */
+.calendar-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 13px;
+    width: 300px;
+    box-sizing: border-box;
+}
+
+.calendar-body {
+    width: 100%;  /* 确保日历主体占满容器宽度 */
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 0 8px;
+}
+
+.calendar-header button {
+    background: none;
+    border: none;
+    color: #4285f4;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 16px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.calendar-header button:hover {
+    background: rgba(66, 133, 244, 0.1);
+    transform: scale(1.1);
+}
+
+.calendar-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    flex: 1;
+}
+
+.weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.weekdays div {
+    color: #666;
+    font-weight: 500;
+    font-size: 13px;
+    padding: 4px 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    width: 100%;  /* 确保日期网格占满容器宽度 */
+}
+
+.day {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    color: #333;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.day:hover:not(.empty) {
+    background-color: rgba(66, 133, 244, 0.1);
+    color: #4285f4;
+    transform: scale(1.1);
+}
+
+.day.today {
+    background-color: #4285f4;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(66, 133, 244, 0.3);
+}
+
+.day.today:hover {
+    background-color: #3b78e7;
+    transform: scale(1.1);
+}
+
+.day.selected:not(.today) {
+    background-color: rgba(66, 133, 244, 0.2);
+    color: #4285f4;
+    font-weight: 500;
+}
+
+.day.empty {
+    cursor: default;
+    color: #ccc;
+    font-size: 13px;
+    opacity: 0.5;
+}
+
+/* 周末日期样式 */
+.weekdays div:first-child,
+.weekdays div:last-child {
+    color: #e74c3c;
+}
+
+.days > div:nth-child(7n),
+.days > div:nth-child(7n+1) {
+    color: #e74c3c;
+}
+
+.days > div.empty:nth-child(7n),
+.days > div.empty:nth-child(7n+1) {
+    color: rgba(231, 76, 60, 0.5);
+}
+
+/* 当前日期的特殊效果 */
+.day.today::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(66, 133, 244, 0.2);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.6;
+    }
+    70% {
+        transform: scale(1.1);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+/* 右侧面板样式 */
+.right-panel {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 时间日期容器样式调整 */
+.datetime-container {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 20px;
+    border-radius: 10px;
+    text-align: right;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.time {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.date {
+    font-size: 16px;
+    color: #666;
+}
+
+/* 主容器样式 */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    margin-right: 340px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 搜索区域样式调整 */
+.search-container {
+    width: 100%;
+    padding: 20px 0 40px;  /* 增加底部内边距 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.search-engines-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;  /* 搜索框之间的间距 */
+}
+
+.search-box {
+    width: 85%;  /* 搜索框宽度 */
+    position: relative;
+}
+
+.search-input-wrapper {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-wrapper input {
+    width: 100%;
+    height: 42px;  /* 调整搜索框高度 */
+    padding: 0 45px 0 16px;  /* 调整内边距 */
+    border: 1px solid #ddd;
+    border-radius: 8px;  /* 圆角 */
+    font-size: 14px;  /* 字体大小 */
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.search-input-wrapper input:hover {
+    border-color: #bbb;
+}
+
+.search-input-wrapper input:focus {
+    outline: none;
+    border-color: #4285f4;
+    box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+}
+
+/* 搜索图标样式 */
+.search-icon {
+    position: absolute;
+    right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.search-icon:hover {
+    opacity: 1;
+}
+
+.search-icon::before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border: 2px solid #666;
+    border-radius: 50%;
+    top: 1px;
+    left: 1px;
+    transition: border-color 0.2s;
+}
+
+.search-icon::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 7px;
+    background: #666;
+    transform: rotate(-45deg);
+    top: 11px;
+    left: 13px;
+    transition: background-color 0.2s;
+}
+
+/* 搜索框聚焦时的图标样式 */
+.search-input-wrapper input:focus ~ .search-icon::before {
+    border-color: #4285f4;
+}
+
+.search-input-wrapper input:focus ~ .search-icon::after {
+    background: #4285f4;
+}
+
+/* 搜索控制按钮样式 */
+.search-controls {
+    width: 85%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    position: relative;  /* 添加相对定位 */
+}
+
+#manage-engines {
+    position: absolute;  /* 使用绝对定位 */
+    bottom: -40px;  /* 调整位置 */
+    right: 0;
+    padding: 6px 12px;
+    font-size: 12px;
+    opacity: 0.8;
+    background: #f8f9fa;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+#manage-engines:hover {
+    opacity: 1;
+    background: #f1f3f4;
+    color: #202124;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 快捷链接容器样式调整 */
+.quicklinks {
+    position: relative;
+    padding: 10px 0 50px;  /* 增加底部内边距 */
+    width: 100%;  /* 确保容器占满宽度 */
+}
+
+.quicklinks-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 0;
+    padding: 10px;
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;  /* 添加相对定位 */
+}
+
+.quicklink {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 80px;
+    margin: 0 auto;
+    transition: box-shadow 0.2s;  /* 只保留阴影过渡效果 */
+    -webkit-user-drag: none;  /* 禁用默认拖动效果 */
+}
+
+.link-icon {
+    width: 48px;  /* 增加图标尺�� */
+    height: 48px;  /* 增加标尺寸 */
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+}
+
+.link-icon img {
+    width: 30px;  /* 增加图标尺寸 */
+    height: 30px;  /* 增加图标尺寸 */
+    object-fit: contain;
+    display: block;
+}
+
+.link-title {
+    font-size: 12px;
+    text-align: center;
+    color: #333;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+/* 悬停效果 - 使用灰色阴影 */
+.quicklink:hover {
+    box-shadow: 0 2px 8px rgba(169, 169, 169, 0.5);  /* 使用更深的灰色阴影 */
+}
+
+/* 编辑按钮样式调整 */
+#edit-links {
+    position: absolute;
+    bottom: 10px;  /* 改为正值，确保在容器内 */
+    right: calc((100% - 720px) / 2 + 10px);  /* 根据容器宽度计算右侧位置 */
+    padding: 6px 12px;
+    font-size: 12px;
+    opacity: 0.8;
+    background: #f8f9fa;
+    color: #5f6368;
+    border: 1px solid #dadce0;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+#edit-links:hover {
+    opacity: 1;
+    background: #f1f3f4;
+    color: #202124;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* 对话框样式 */
+dialog {
+    border: none;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    max-width: 400px;
+    width: 90%;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+dialog h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+dialog form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+dialog input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* 壁纸设置样式 */
+.wallpaper-settings {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 10px;
+}
+
+.wallpaper-settings input[type="file"] {
+    display: none;
+}
+
+/* 按钮通用样式 */
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    background: #4285f4;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: #3367d6;
+}
+
+button.secondary {
+    background: #f1f3f4;
+    color: #333;
+}
+
+button.secondary:hover {
+    background: #e8eaed;
+}
+
+/* 右键菜单样式 */
+.context-menu {
+    position: fixed;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 4px 0;
+    min-width: 120px;
+    z-index: 1000;
+}
+
+.menu-item {
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.menu-item:hover {
+    background-color: #f5f5f5;
+    color: #4285f4;
+}
+
+.menu-item.delete:hover {
+    color: #dc3545;
+}
+
+/* 搜索引擎管理对话框样式 */
+.engine-item {
+    display: flex;
+    gap: 8px;  /* 减小元素之间的间距 */
+    margin-bottom: 10px;  /* 减小项目之间的垂直间距 */
+    padding: 8px;  /* 减小内边距 */
+    background: #f8f9fa;
+    border-radius: 6px;
+    align-items: center;
+}
+
+.engine-item:hover {
+    background: #f0f2f5;
+}
+
+.drag-handle {
+    color: #999;
+    cursor: move;
+    padding: 0 2px;  /* 减小拖动把手的内边距 */
+}
+
+.engine-item input {
+    padding: 6px 8px;  /* 减小输入框内边距 */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.engine-item input:first-of-type {
+    flex: 0 0 60px;  /* 减小名称输入框宽度 */
+    min-width: 60px;
+}
+
+.engine-item input:last-of-type {
+    flex: 1;  /* URL 输入框占据剩余空间 */
+}
+
+.engine-item .delete-engine {
+    padding: 6px 10px;  /* 减小删除按钮的内边距 */
+    background: #dc3545;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0.8;
+    margin-left: 4px;  /* 减小左边距 */
+}
+
+#engine-dialog {
+    padding: 20px;
+    min-width: 500px;  /* 减小对话框宽度 */
+    max-width: 600px;
+}
+
+#engine-dialog h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 18px;
+}
+
+.dialog-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.dialog-buttons button {
+    padding: 8px 20px;
+    font-size: 14px;
+}
+
+#add-new-engine {
+    background: #4285f4;
+}
+
+#close-dialog {
+    background: #f1f3f4;
+    color: #333;
+}
+
+/* 拖动相关样式 */
+.quicklink {
+    -webkit-user-drag: none;  /* 禁用默认拖动效果 */
+}
+
+.quicklink.dragging {
+    opacity: 0.5;
+    background: rgba(255, 255, 255, 0.9);
+    position: relative;
+    z-index: 1000;
+}
+
+/* 拖动时的预览效果 */
+.quicklink-drop-preview {
+    opacity: 0.3;
+    background: #f0f0f0;
+    border: 2px dashed #4285f4;
+    border-radius: 8px;
+    pointer-events: none;  /* 防止预览元素影响拖动 */
+}
+
+/* 拖动目标位置的指示器 */
+.drop-indicator {
+    border: 2px dashed #4285f4;
+    background: rgba(66, 133, 244, 0.1);
+    position: absolute;
+    pointer-events: none;
+    border-radius: 8px;
+    z-index: 999;
+}
+
+/* 日历日期样式调整 */
+.day {
+    height: auto;
+    min-height: 40px;
+    padding: 4px;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.solar-date {
+    font-size: 14px;
+}
+
+.lunar-date {
+    font-size: 10px;
+    color: #666;
+}
+
+/* 节假日样式 */
+.lunar-date.holiday {
+    color: #e74c3c;
+}
+
+/* 设置按钮样式 */
+.calendar-settings {
+    font-size: 16px;
+    padding: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.calendar-settings:hover {
+    opacity: 1;
+}
+
+/* 设置对话框样式 */
+.calendar-settings-dialog {
+    padding: 20px;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.setting-item {
+    margin: 15px 0;
+}
+
+.setting-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+/* 拖动时的预览效果 */
+.quicklink-drop-preview {
+    opacity: 0.3;
+    background: #f0f0f0;
+    border: 2px dashed #4285f4;
+    border-radius: 8px;
+    pointer-events: none;  /* 防止预览元素影响拖动 */
+}
+
+/* 拖动目标位置的指示器 */
+.drop-indicator {
+    border: 2px dashed #4285f4;
+    background: rgba(66, 133, 244, 0.1);
+    position: absolute;
+    pointer-events: none;
+    border-radius: 8px;
+    z-index: 999;
+} 
