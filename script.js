@@ -58,7 +58,8 @@ function renderQuicklinks(links) {
         const img = document.createElement('img');
         img.alt = link.title;
         img.addEventListener('error', function() {
-            this.src = 'icons/default.png';
+            this.remove();
+            iconContainer.style.minHeight = '32px';
         });
         img.src = link.icon;
         
@@ -494,8 +495,7 @@ function saveQuicklink(e) {
     const newLink = {
         title: document.getElementById('link-title').value,
         url: document.getElementById('link-url').value,
-        icon: document.getElementById('link-icon').value || 
-              `https://www.google.com/s2/favicons?domain=${document.getElementById('link-url').value}`
+        icon: document.getElementById('link-icon').value || ''
     };
 
     chrome.storage.sync.get(['quicklinks'], function(result) {
